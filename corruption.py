@@ -16,10 +16,10 @@ CITIES = dict()
 
 def load_provinces_and_cities(file_path):
     with open(file_path, 'r') as f:
-    for line in f:
-        province, city = line.strip().split(',')
-        PROVINCES.add(province.strip())
-        CITIES[city.strip()] = province
+        for line in f:
+            province, city = line.strip().split(',')
+            PROVINCES.add(province.strip())
+            CITIES[city.strip()] = province
     
 PROVINCES = {*PROVINCES, 'DKI', 'DIY', 'NTB', 'NTT'}
 
