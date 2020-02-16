@@ -206,3 +206,8 @@ class Corruption:
       'operasi tangkap tangan ott korupsi {} {} {} {}'.format(empty_if_none(self.category), self.accused, self.organization, empty_if_none(self.year)),
       'kerugian negara korupsi {} {} {} {}'.format(empty_if_none(self.category), self.accused, self.organization, empty_if_none(self.year)),
     )
+
+def generate_webpage_id(case, url):
+  accused_first_name = case.accused.split()[0].lower()
+  url_hash = abs(hash(url))
+  return '{}_{}'.format(accused_first_name, url_hash)
