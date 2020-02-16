@@ -11,6 +11,18 @@ ACADEMIC_TITLE = r',\s{0,2}[A-Z]\.[A-Z]+[a-z]*'
 ACADEMIC_TITLE_NOTFORMAL = r',\s{0,2}[A-Z]{2}'
 HONORIFIC_TITLE = r'[A-Z][a-z]{0,3}\.'
 
+PROVINCES = set()
+CITIES = dict()
+
+def load_provinces_and_cities(file_path):
+    with open(file_path, 'r') as f:
+    for line in f:
+        province, city = line.strip().split(',')
+        PROVINCES.add(province.strip())
+        CITIES[city.strip()] = province
+    
+PROVINCES = {*PROVINCES, 'DKI', 'DIY', 'NTB', 'NTT'}
+
 def save_corruption_data(work_dir, corruptions):
   with open(work_dir + '/korupsi_result' + str(int(datetime.datetime.now().timestamp())) + '.csv', 'w') as f:
     f.write('id,jenis perkara,tahun,koruptor,organisasi terlibat,kota/kabupaten,provinsi,web search,keterangan,tahun kpk\n')
