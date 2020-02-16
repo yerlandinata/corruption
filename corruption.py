@@ -3,12 +3,19 @@ import csv
 from Levenshtein import distance
 from collections import Counter
 import csv
+import datetime
 
 PARENTHESES = r'\(.*\)'
 ALIASES = r'alias.*'
 ACADEMIC_TITLE = r',\s{0,2}[A-Z]\.[A-Z]+[a-z]*'
 ACADEMIC_TITLE_NOTFORMAL = r',\s{0,2}[A-Z]{2}'
 HONORIFIC_TITLE = r'[A-Z][a-z]{0,3}\.'
+
+def save_corruption_data(work_dir, corruptions):
+  with open(work_dir + '/korupsi_result' + str(int(datetime.datetime.now().timestamp())) + '.csv', 'w') as f:
+    f.write('id,jenis perkara,tahun,koruptor,organisasi terlibat,kota/kabupaten,provinsi,web search,keterangan,tahun kpk\n')
+    for c in corruptions:
+      f.write(str(c) + '\n')
 
 class CorruptionCategory:
   def __init__(self, name, confidence, evidences, search_query=None):
