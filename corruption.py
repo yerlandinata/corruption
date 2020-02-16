@@ -4,6 +4,7 @@ from Levenshtein import distance
 from collections import Counter
 import csv
 import datetime
+import hashlib
 
 PARENTHESES = r'\(.*\)'
 ALIASES = r'alias.*'
@@ -209,5 +210,5 @@ class Corruption:
 
 def generate_webpage_id(case, url):
   accused_first_name = case.accused.split()[0].lower()
-  url_hash = abs(hash(url))
+  url_hash = hashlib.md5(url.encode()).hexdigest()
   return '{}_{}'.format(accused_first_name, url_hash)
