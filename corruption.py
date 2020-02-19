@@ -26,7 +26,7 @@ PROVINCES = {*PROVINCES, 'DKI', 'DIY', 'NTB', 'NTT'}
 
 def save_corruption_data(work_dir, corruptions):
   with open(work_dir + '/korupsi_result' + str(int(datetime.datetime.now().timestamp())) + '.csv', 'w') as f:
-    f.write('id,jenis perkara,tahun,koruptor,organisasi terlibat,kota/kabupaten,provinsi,web search,keterangan,tahun kpk\n')
+    f.write('id,jenis perkara,tahun,koruptor,organisasi terlibat,kota/kabupaten,provinsi,hukuman vonis,tanggal vonis,tanggal ott,kerugian negara,web search,keterangan,tahun kpk\n')
     for c in corruptions:
       f.write(str(c) + '\n')
 
@@ -114,8 +114,38 @@ class Corruption:
       corruptions.append(Corruption(key, desc, accused, organization, src, city=city, province=province, google_search=google_search, year=year, category=category))
     return corruptions
     
+  @staticmethod
+  def get_batch_from_csv_v2(file_handle, corruption_categories):
+    corruption_categories = {c.name: c for c in corruption_categories}
+    csv_reader = csv.reader(file_handle, delimiter=',', quotechar='"')
+    corruptions = []
+    for i, row in enumerate(csv_reader):
+      if i == 0:
+        continue # header row
+#       print(row)
+      key, category, year, accused, organization, city, province, verdict_punishment, verdict_date, arrest_date, state_damage, google_search, desc, src = row
+      key = int(key)
+      category = corruption_categories[category] if category != '' else None
+      year = none_if_empty(year)
+      accused = none_if_empty(accused)
+      organization = none_if_empty(organization)
+      city = none_if_empty(city)
+      province = none_if_empty(province)
+      verdict_date = none_if_empty(verdict_date)
+      verdict_punishment = none_if_empty(verdict_punishment)
+      arrest_date = none_if_empty(arrest_date)
+      state_damage = none_if_empty(arrest_date)
+      google_search = eval(google_search) if google_search != '' else None
+      corruptions.append(
+        Corruption(
+          key, desc, accused, organization, src, city=city, province=province, 
+          verdict_date=verdict_date, arrest_date=arrest_date, verdict_punishment=verdict_punishment, state_damage=state_damage,
+          google_search=google_search, year=year, category=category
+          )
+        )
+    return corruptions
 
-  def __init__(self, key, desc, accused, organization, src, city=None, province=None, google_search=None, year=None, category=None):
+  def __init__(self, key, desc, accused, organization, src, city=None, province=None, google_search=None, year=None, category=None, verdict_date=None, arrest_date=None, verdict_punishment=None, state_damage=None):
     self.original_data = desc + ' ' + accused + ' ' + organization
     self.key = key
     self.src = src
@@ -127,6 +157,10 @@ class Corruption:
     self.category = category
     self.city = city
     self.province = province
+    self.verdict_date = verdict_date
+    self.arrest_date = arrest_date
+    self.verdict_punishment = verdict_punishment
+    self.state_damage = state_damage
     self.fill_year()
     self.clean_accused()
     self.fill_location()
@@ -181,7 +215,10 @@ class Corruption:
     
   def __str__(self):
     return '"{}","{}","{}","{}","{}","{}","{}","{}","{}","{}"'.format(
-        self.key, empty_if_none(self.category), empty_if_none(self.year), self.accused, self.organization, empty_if_none(self.city), empty_if_none(self.province), empty_if_none(self.google_search), self.desc, self.src
+        self.key, empty_if_none(self.category), empty_if_none(self.year), self.accused, 
+        self.organization, empty_if_none(self.city), empty_if_none(self.province), 
+        self.verdict_punishment, self.verdict_date, self.arrest_date, self.state_damage,
+        empty_if_none(self.google_search), self.desc, self.src
     )
   
   def __repr__(self):
