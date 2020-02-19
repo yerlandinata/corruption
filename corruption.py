@@ -214,7 +214,7 @@ class Corruption:
     self.accused = cleaned.strip().replace('.', '')
     
   def __str__(self):
-    return '"{}","{}","{}","{}","{}","{}","{}","{}","{}","{}"'.format(
+    return '"{}","{}","{}","{}","{}","{}","{}","{}","{}","{}","{}","{}","{}","{}"'.format(
         self.key, empty_if_none(self.category), empty_if_none(self.year), self.accused, 
         self.organization, empty_if_none(self.city), empty_if_none(self.province), 
         self.verdict_punishment, self.verdict_date, self.arrest_date, self.state_damage,
