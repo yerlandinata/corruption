@@ -217,7 +217,7 @@ class Corruption:
     return '"{}","{}","{}","{}","{}","{}","{}","{}","{}","{}","{}","{}","{}","{}"'.format(
         self.key, empty_if_none(self.category), empty_if_none(self.year), self.accused, 
         self.organization, empty_if_none(self.city), empty_if_none(self.province), 
-        self.verdict_punishment, self.verdict_date, self.arrest_date, self.state_damage,
+        empty_if_none(self.verdict_punishment), empty_if_none(self.verdict_date), empty_if_none(self.arrest_date), empty_if_none(self.state_damage),
         empty_if_none(self.google_search), self.desc, self.src
     )
   
