@@ -134,7 +134,7 @@ class Corruption:
       verdict_date = none_if_empty(verdict_date)
       verdict_punishment = none_if_empty(verdict_punishment)
       arrest_date = none_if_empty(arrest_date)
-      state_damage = none_if_empty(arrest_date)
+      state_damage = none_if_empty(state_damage)
       google_search = eval(google_search) if google_search != '' else None
       corruptions.append(
         Corruption(
