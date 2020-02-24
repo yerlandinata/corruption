@@ -240,9 +240,9 @@ class Corruption:
     
   def get_search_query(self):
     return (
-      'vonis korupsi {} {} {} {}'.format(empty_if_none(self.category), self.accused, self.organization, empty_if_none(self.year)),
-      'operasi tangkap tangan ott korupsi {} {} {} {}'.format(empty_if_none(self.category), self.accused, self.organization, empty_if_none(self.year)),
-      'kerugian negara korupsi {} {} {} {}'.format(empty_if_none(self.category), self.accused, self.organization, empty_if_none(self.year)),
+      'vonis korupsi {}'.format(self.accused),
+      'operasi tangkap tangan ott korupsi {}'.format(self.accused),
+      'kerugian negara korupsi {}'.format(self.accused),
     )
 
 def generate_webpage_id(case, url):
